@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Page layouts — how components are arranged on each page.
+   ========================================================================== */
+
+/* ---------- Home ---------- */
+
+.hero { padding-block: 180px var(--space-8); }
+.hero__wordmark { width: min(892px, 100%); aspect-ratio: 892 / 298; margin: 0 auto var(--space-8); }
+.hero__intro { max-width: 847px; }
+
+.product { padding-block: var(--space-8) var(--space-5); }
+.product .section-title { margin-bottom: var(--space-5); }
+
+.logos { padding-block: var(--space-8) var(--space-5); }
+.logos logo-marquee { margin-top: var(--space-6); }
+
+.about-teaser { padding-block: var(--space-8); }
+.about-teaser__grid { display: grid; grid-template-columns: minmax(0, 737fr) minmax(0, 513fr); gap: var(--space-6); align-items: end; }
+.about-teaser__text { display: grid; gap: var(--space-6); }
+.about-teaser__img { width: 100%; aspect-ratio: 513 / 511; object-fit: cover; border-radius: var(--radius-media); }
+
+/* ---------- Page header (product / visual) ---------- */
+
+.page-head { padding-block: 200px var(--space-8); }
+.page-head__inner { max-width: 640px; display: grid; gap: 24px; }
+.page-head__lead { font-size: var(--text-h3); line-height: 1.15; font-weight: var(--weight-semibold); }
+
+/* ---------- Product design ---------- */
+
+.work-list { display: grid; gap: var(--space-6); padding-block: var(--space-6) var(--space-8); }
+
+/* ---------- Visual design ---------- */
+
+.visual-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px var(--space-5); padding-block: var(--space-3) var(--space-8); }
+
+/* ---------- About ---------- */
+
+.about-hero {
+  position: relative;
+  min-height: 720px;
+  display: flex;
+  align-items: flex-end;
+  padding: 180px 0 var(--space-10);
+  overflow: hidden;
+  isolation: isolate;
+}
+.about-hero__bg { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; }
+.about-hero__inner { position: relative; width: 100%; display: flex; align-items: center; gap: var(--space-8); }
+.about-hero__pill { flex: none; width: 630px; height: 166px; margin-left: -284px; }
+.about-hero__title { max-width: 954px; padding-right: var(--page-pad); }
+
+.profile {
+  position: relative;
+  display: grid;
+  gap: var(--space-6);
+  margin-top: calc(var(--space-8) * -1);
+  padding: var(--space-9) var(--space-8);
+  border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+  background: var(--surface-card);
+  color: var(--text-on-light);
+}
+.profile__head { display: grid; gap: var(--space-8); justify-items: center; max-width: 895px; margin: 0 auto; text-align: center; }
+.profile__cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-10); text-align: left; }
+.profile__cols > p + p { margin-top: 0; }
+
+.stack { display: grid; gap: var(--space-6); justify-items: center; padding-block: var(--space-6); text-align: center; }
+.stack pill-list { max-width: 844px; }
+
+.contact { display: grid; gap: var(--space-6); justify-items: center; padding-top: var(--space-5); text-align: center; }
+.contact__cta { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-5); }
+
+.life { padding-block: 90px var(--space-8); }
+.life > .h2 { margin-bottom: var(--space-8); text-align: center; }
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 1100px) {
+  .about-hero__pill { margin-left: -420px; }
+  .profile { padding: var(--space-8) var(--space-7); }
+  .profile__cols { gap: var(--space-7); }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 760px) {
+  .hero { padding-block: var(--space-10) var(--space-6); }
+  .hero__wordmark { margin-bottom: 24px; }
+  .hero__intro { font-size: var(--text-mobile-title); line-height: 1.35; }
+
+  .about-teaser__grid { grid-template-columns: 1fr; }
+  .about-teaser__text .body { font-size: var(--text-small); }
+
+  .page-head { padding-block: 110px var(--space-6); }
+  .page-head__lead { font-size: var(--text-mobile-title); }
+
+  .visual-grid { grid-template-columns: 1fr; gap: 16px; }
+
+  .about-hero { min-height: 560px; padding: 120px 0 90px; }
+  .about-hero__inner { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .about-hero__pill { width: 260px; height: 70px; margin-left: -110px; }
+  .about-hero__title { padding: 0 16px; }
+  .profile { margin-top: -50px; padding: 50px 16px; }
+  .profile__head { gap: var(--space-6); }
+  .profile__cols { grid-template-columns: 1fr; gap: var(--space-5); }
+  .life { padding-top: var(--space-8); }
+  .life > .h2 { margin-bottom: var(--space-6); }
+}

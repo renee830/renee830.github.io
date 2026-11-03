@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About me — Renée Ocaña</title>
+  <meta name="description" content="Renée Ocaña — product designer and brand strategist based in Espoo, Finland. Open for freelance and full-time jobs.">
+  <meta property="og:title" content="About me — Renée Ocaña">
+  <meta property="og:description" content="Designer by trade, empath by nature.">
+  <meta name="theme-color" content="#313131">
+  <link rel="icon" href="assets/logos/renee-r.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <script src="assets/js/components.js" defer></script>
+</head>
+<body>
+  <site-nav current="about"></site-nav>
+
+  <main id="main">
+    <section class="about-hero">
+      <img class="about-hero__bg" src="assets/img/about-hero.jpg" alt="">
+      <div class="about-hero__inner">
+        <dot-shader class="about-hero__pill" shape="pill" spacing="4.5" color="#ff7e0d" hot="#313131" aria-hidden="true"></dot-shader>
+        <h1 class="h2 about-hero__title">Clean, human-centered solutions built to last</h1>
+      </div>
+    </section>
+
+    <div class="container">
+      <section class="profile" aria-labelledby="profile-title">
+        <div class="profile__head reveal">
+          <h2 class="h2 uppercase" id="profile-title">Product designer<br>&amp; brand strategist</h2>
+          <div class="profile__cols body">
+            <p>I help create meaningful connections between products and customers. Focusing on empathic decisions and working end-to-end on products or brands.</p>
+            <p>A real multidisciplinary designer: user research, user flows, prototypes, polished interfaces, branding and visual assets. The goal: lasting customer engagement and growth.</p>
+          </div>
+        </div>
+
+        <dl class="kpis reveal">
+          <div><dt>Years of practice</dt><dd>12+</dd></div>
+          <div><dt>Languages</dt><dd>3</dd></div>
+          <div><dt>Projects completed</dt><dd>40+</dd></div>
+          <div><dt>Cats</dt><dd>2</dd></div>
+        </dl>
+
+        <div class="stack reveal">
+          <h2 class="h3">Tech stack</h2>
+          <pill-list variant="outline" tags="Figma, Adobe Suite, Inkscape, Canva, Google Suite, Office, Notion, Atlassian, Gainsight PX, Claude – OpenAI, GitHub, Framer"></pill-list>
+        </div>
+
+        <div class="contact reveal">
+          <h2 class="h3">Based in Finland,<br>working around the world</h2>
+          <p class="body">Open for freelance and full-time jobs.</p>
+          <div class="contact__cta">
+            <a class="btn btn--dark" href="https://www.linkedin.com/in/renee-ocana/" target="_blank" rel="noopener">Contact by LinkedIn <img class="btn__icon" src="assets/icons/arrow-right.svg" alt=""></a>
+            <a class="btn btn--orange" href="mailto:renee.oflo@proton.me">Send an email <img class="btn__icon" src="assets/icons/arrow-right.svg" alt=""></a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="life container" aria-labelledby="life-title">
+      <h2 class="h2 uppercase reveal" id="life-title">Get to know me</h2>
+      <life-stack>
+        <life-moment image="assets/img/life-photography.jpg" alt="Black-and-white photo of a person sitting on waterfront steps in front of city buildings">I love photography and is part of my daily life.</life-moment>
+        <life-moment image="assets/img/life-beer.jpg" alt="Two glasses of craft beer on a bar table under neon lights">Worked as a manager in a specialty bar for 4 years &amp; got hooked on craft beer ever since.</life-moment>
+        <life-moment image="assets/img/life-music.jpg" alt="A red vinyl record spinning on a turntable">Music is very important to me. I try to go to as many concerts as I can.</life-moment>
+        <life-moment image="assets/img/life-finland.jpg" alt="Ladder leading into an ice-swimming hole on a frozen Finnish lake">I’ve been living in Finland for 2.5 years now. I’m from México.</life-moment>
+      </life-stack>
+    </section>
+  </main>
+
+  <site-footer></site-footer>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design system — Renée Ocaña</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#313131">
+  <link rel="icon" href="assets/logos/renee-r.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <script src="assets/js/components.js" defer></script>
+  <style>
+    /* Styles for this documentation page only (sg- prefix). */
+    .sg { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: var(--space-8); padding-block: 160px var(--space-10); }
+    .sg-toc { position: sticky; top: 140px; align-self: start; display: grid; gap: 4px; font-size: var(--text-caption); }
+    .sg-toc strong { margin: var(--space-4) 0 4px; color: var(--text-muted); font-size: var(--text-pill); letter-spacing: 0.08em; text-transform: uppercase; }
+    .sg-toc a { padding: 4px 0; text-decoration: none; color: var(--text-primary); }
+    .sg-toc a:hover { color: var(--text-accent); }
+    .sg-main { display: grid; gap: var(--space-10); min-width: 0; }
+    .sg-section { display: grid; gap: var(--space-6); scroll-margin-top: 140px; }
+    .sg-section > header { display: grid; gap: var(--space-3); padding-bottom: var(--space-5); border-bottom: 1px solid var(--border-accent); }
+    .sg-section > header p { color: var(--text-muted); font-size: var(--text-small); max-width: 70ch; }
+    .sg-label { font-size: var(--text-pill); font-weight: var(--weight-bold); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+    .sg-lead { color: var(--text-muted); max-width: 70ch; }
+    .sg-lead code, .sg-section code:not(pre code) { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; color: var(--text-primary); background: rgba(255,255,255,0.08); padding: 1px 5px; border-radius: 4px; }
+
+    .sg-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: var(--space-4); }
+    .sg-swatch { display: grid; gap: var(--space-2); font-size: var(--text-caption); }
+    .sg-swatch span:first-child { height: 76px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); }
+    .sg-swatch code { color: var(--text-muted); font-size: 12px; }
+
+    .sg-type { display: grid; gap: var(--space-5); }
+    .sg-type-row { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--space-5); align-items: baseline; padding-bottom: var(--space-5); border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sg-type-row code { color: var(--text-muted); font-size: 12px; line-height: 1.5; }
+
+    .sg-spaces { display: grid; gap: var(--space-2); }
+    .sg-space { display: grid; grid-template-columns: 120px 60px 1fr; gap: var(--space-4); align-items: center; font-size: var(--text-caption); }
+    .sg-space span:last-child { height: 14px; background: var(--action-primary); border-radius: 3px; }
+
+    .sg-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: var(--space-5); }
+    .sg-tile { display: grid; place-items: center; height: 110px; background: var(--surface-card); color: var(--text-on-light); font-size: var(--text-caption); text-align: center; }
+
+    .sg-example { display: grid; gap: 0; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; overflow: hidden; }
+    .sg-demo { padding: var(--space-6); overflow: hidden; }
+    .sg-demo--light { background: var(--surface-card); color: var(--text-on-light); }
+    .sg-demo--row { display: flex; flex-wrap: wrap; gap: var(--space-5); align-items: center; }
+    .sg-code { margin: 0; max-height: 340px; overflow: auto; padding: var(--space-5); background: #232323; border-top: 1px solid rgba(255,255,255,0.1); font: 12.5px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; color: #e6e6e6; white-space: pre; }
+
+    .sg-props { width: 100%; border-collapse: collapse; font-size: var(--text-caption); }
+    .sg-props th, .sg-props td { text-align: left; vertical-align: top; padding: var(--space-2) var(--space-3); border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sg-props th { color: var(--text-muted); font-weight: var(--weight-semibold); }
+    .sg-props td:first-child { white-space: nowrap; }
+
+    .sg-demo .slider__track > case-card { flex-basis: min(900px, 80vw); }
+    .sg-demo .slider__arrows { position: static; justify-content: center; margin-bottom: var(--space-5); }
+    .sg-demo .project { height: 480px; }
+
+    @media (max-width: 1100px) {
+      .sg { grid-template-columns: 1fr; }
+      .sg-toc { position: static; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    }
+    @media (max-width: 760px) {
+      .sg { padding-top: 110px; }
+      .sg-type-row { grid-template-columns: 1fr; gap: var(--space-2); }
+      .sg-demo { padding: var(--space-4); }
+    }
+  </style>
+</head>
+<body>
+  <site-nav></site-nav>
+
+  <main id="main" class="container">
+    <div class="sg">
+      <nav class="sg-toc" aria-label="Design system">
+        <strong>Foundations</strong>
+        <a href="#colour">Colour</a>
+        <a href="#type">Typography</a>
+        <a href="#spacing">Spacing</a>
+        <a href="#radius">Radius &amp; elevation</a>
+        <a href="#motion">Motion</a>
+        <strong>Components</strong>
+        <a href="#logo">Logo</a>
+        <a href="#buttons">Buttons</a>
+        <a href="#pills">Pill list</a>
+        <a href="#nav">Site nav</a>
+        <a href="#footer">Site footer</a>
+        <a href="#case-card">Case card</a>
+        <a href="#case-slider">Case slider</a>
+        <a href="#project-card">Project card</a>
+        <a href="#logo-marquee">Logo marquee</a>
+        <a href="#dot-shader">Dot shader</a>
+        <a href="#life-stack">Life stack</a>
+        <a href="#kpis">KPI list</a>
+        <a href="#reveal">Reveal on scroll</a>
+      </nav>
+
+      <div class="sg-main">
+        <header class="sg-section">
+          <h1 class="h2">Design system</h1>
+          <p class="sg-lead">
+            Everything the portfolio is built from. Tokens live in <code>assets/css/tokens.css</code>,
+            component styles in <code>assets/css/components.css</code> and component behaviour in
+            <code>assets/js/components.js</code>. Change a token or a component once and every page updates.
+            Each example below shows its real source — copy it into a page to use it.
+          </p>
+        </header>
+
+        <!-- ================= FOUNDATIONS ================= -->
+
+        <section class="sg-section" id="colour">
+          <header>
+            <h2 class="h3">Colour</h2>
+            <p>Primitives are the raw palette from Figma. Components use the semantic tokens only — to re-theme the site, point a semantic token at a different primitive.</p>
+          </header>
+          <p class="sg-label">Primitives</p>
+          <div class="sg-swatches" data-swatches="--color-black --color-ink --color-gray --color-white --color-pure-white --color-orange --color-orange-dark --color-green"></div>
+          <p class="sg-label">Semantic</p>
+          <div class="sg-swatches" data-swatches="--surface-page --surface-card --surface-nav --surface-pill --text-primary --text-muted --text-on-light --text-accent --border-strong --border-subtle --border-accent --action-primary --action-primary-hover --action-dark --focus-ring"></div>
+        </section>
+
+        <section class="sg-section" id="type">
+          <header>
+            <h2 class="h3">Typography</h2>
+            <p>Display: Konkhmer Sleokchher. Body: Open Sans 400/600/700. Display sizes are fluid — they scale down from the Figma size at 1440px.</p>
+          </header>
+          <div class="sg-type">
+            <div class="sg-type-row"><code>.h1<br>--text-h1 · 80/88</code><p class="h1">Renée Ocaña</p></div>
+            <div class="sg-type-row"><code>.h2<br>--text-h2 · 56/62</code><p class="h2">Complex products. Clear experiences.</p></div>
+            <div class="sg-type-row"><code>.h3<br>--text-h3 · 32/38</code><p class="h3">Based in Espoo, working around the world</p></div>
+            <div class="sg-type-row"><code>.h4<br>--text-h4 · 20/24</code><p class="h4">Empathy-driven design backed with data decisions</p></div>
+            <div class="sg-type-row"><code>.lead<br>--text-lead · 36</code><p class="lead">Visual designer with 11+ years of experience, <strong>specializing in UX/UI.</strong></p></div>
+            <div class="sg-type-row"><code>.body<br>--text-body · 18/24</code><p class="body">I’m a designer who gets excited about new ideas, with at least one project running in my head all day.</p></div>
+            <div class="sg-type-row"><code>--text-small · 16</code><p style="font-size: var(--text-small)">Navigation, buttons and footer links.</p></div>
+            <div class="sg-type-row"><code>.caption<br>--text-caption · 14</code><p class="caption">Semantum · 2025 · B2B / Engineering software · Finland</p></div>
+            <div class="sg-type-row"><code>.muted / .accent / .uppercase</code><p class="body"><span class="muted">Muted text</span> · <span class="accent">Accent text</span> · <span class="uppercase">uppercase</span></p></div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="spacing">
+          <header>
+            <h2 class="h3">Spacing</h2>
+            <p>The gap and padding values used by the Figma auto-layouts. <code>--page-pad</code> is the side margin: 80px desktop, 40px tablet, 16px mobile.</p>
+          </header>
+          <div class="sg-spaces" data-spaces="--space-1 --space-2 --space-3 --space-4 --space-5 --space-6 --space-7 --space-8 --space-9 --space-10"></div>
+        </section>
+
+        <section class="sg-section" id="radius">
+          <header>
+            <h2 class="h3">Radius &amp; elevation</h2>
+          </header>
+          <div class="sg-tiles">
+            <div class="sg-tile" style="border-radius: var(--radius-pill)">--radius-pill<br>50px</div>
+            <div class="sg-tile" style="border-radius: var(--radius-card)">--radius-card<br>25px</div>
+            <div class="sg-tile" style="border-radius: var(--radius-media)">--radius-media<br>17px</div>
+            <div class="sg-tile" style="border-radius: var(--radius-panel) var(--radius-panel) 0 0">--radius-panel<br>80px</div>
+          </div>
+          <div class="sg-tiles">
+            <div class="sg-tile" style="border-radius: var(--radius-card); box-shadow: var(--shadow-card)">--shadow-card</div>
+            <div class="sg-tile" style="border-radius: var(--radius-card); box-shadow: var(--shadow-media)">--shadow-media</div>
+            <div class="sg-tile" style="border-radius: var(--radius-card); box-shadow: var(--shadow-photo)">--shadow-photo</div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="motion">
+          <header>
+            <h2 class="h3">Motion</h2>
+            <p><code>--ease-out</code> with <code>--duration-fast</code> (0.2s, colours), <code>--duration-base</code> (0.35s, shadows) and <code>--duration-slow</code> (0.6s, movement). All motion is switched off for visitors who ask for reduced motion.</p>
+          </header>
+        </section>
+
+        <!-- ================= COMPONENTS ================= -->
+
+        <section class="sg-section" id="logo">
+          <header>
+            <h2 class="h3">Logo</h2>
+            <p>The dotted R mark. Turns orange on hover. Used by the nav and footer.</p>
+          </header>
+          <div class="sg-example">
+            <div class="sg-demo sg-demo--row" data-example>
+              <a class="logo-r" href="index.html" aria-label="Renée Ocaña — home"></a>
+            </div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="buttons">
+          <header>
+            <h2 class="h3">Buttons</h2>
+            <p><code>.btn</code> plus a variant: <code>.btn--dark</code>, <code>.btn--orange</code> or <code>.btn--outline</code>. Add <code>.btn--small</code> for the small size. The arrow icon is optional. <code>.round-btn</code> is the round arrow used by the slider.</p>
+          </header>
+          <div class="sg-example">
+            <div class="sg-demo sg-demo--light sg-demo--row" data-example>
+              <a class="btn btn--dark" href="#">Contact by LinkedIn <img class="btn__icon" src="assets/icons/arrow-right.svg" alt=""></a>
+              <a class="btn btn--orange" href="#">Send an email <img class="btn__icon" src="assets/icons/arrow-right.svg" alt=""></a>
+              <a class="btn btn--outline" href="#">Outline</a>
+              <a class="btn btn--dark btn--small" href="#">Small</a>
+              <button class="round-btn round-btn--prev" type="button" aria-label="Previous"><img src="assets/icons/arrow-right.svg" alt=""></button>
+              <button class="round-btn" type="button" aria-label="Next"><img src="assets/icons/arrow-right.svg" alt=""></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="pills">
+          <header>
+            <h2 class="h3">Pill list <code>&lt;pill-list&gt;</code></h2>
+            <p>A row of tags. Case cards and project cards use it for their tags.</p>
+          </header>
+          <table class="sg-props">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>tags</code></td><td>Comma-separated labels.</td></tr>
+            <tr><td><code>variant</code></td><td>Optional. <code>outline</code> = the larger outlined chips used for the tech stack.</td></tr>
+          </table>
+          <div class="sg-example">
+            <div class="sg-demo sg-demo--light" data-example>
+              <pill-list tags="Branding, Visual identity, Motion graphics, Web design"></pill-list>
+              <br>
+              <pill-list variant="outline" tags="Figma, Adobe Suite, Notion, Framer"></pill-list>
+            </div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="nav">
+          <header>
+            <h2 class="h3">Site nav <code>&lt;site-nav&gt;</code></h2>
+            <p>The floating top bar (it's the one at the top of this page). Collapses to a menu button on mobile. Link labels and targets are set once in <code>SITE.nav</code> at the top of <code>components.js</code>.</p>
+          </header>
+          <table class="sg-props">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>current</code></td><td>Active page: <code>product-design</code>, <code>visual-design</code> or <code>about</code>. Leave out on the home page.</td></tr>
+          </table>
+          <pre class="sg-code">&lt;site-nav current="about"&gt;&lt;/site-nav&gt;</pre>
+        </section>
+
+        <section class="sg-section" id="footer">
+          <header>
+            <h2 class="h3">Site footer <code>&lt;site-footer&gt;</code></h2>
+            <p>Back-to-top bar, tagline, links and copyright (see the bottom of this page). Text and links come from <code>SITE</code> at the top of <code>components.js</code>.</p>
+          </header>
+          <pre class="sg-code">&lt;site-footer&gt;&lt;/site-footer&gt;</pre>
+        </section>
+
+        <section class="sg-section" id="case-card">
+          <header>
+            <h2 class="h3">Case card <code>&lt;case-card&gt;</code></h2>
+            <p>A product design case study: image, details line, tags, title and text. The element marked <code>slot="title"</code> becomes the title; everything else becomes the text. Pick the heading level that fits the page (<code>h2</code> on a list page, <code>h3</code> under a section heading).</p>
+          </header>
+          <table class="sg-props">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>image</code>, <code>alt</code></td><td>Image path and its description.</td></tr>
+            <tr><td><code>details</code></td><td>Company · Year · Industry · Place</td></tr>
+            <tr><td><code>tags</code></td><td>Comma-separated tags (rendered with <code>&lt;pill-list&gt;</code>).</td></tr>
+            <tr><td><code>layout</code></td><td>Optional. <code>reverse</code> = image on the right. <code>secondary</code> = compact dark card.</td></tr>
+          </table>
+          <p class="sg-label">Default</p>
+          <div class="sg-example">
+            <div class="sg-demo" data-example>
+              <case-card image="assets/img/work-semantum.jpg" alt="Model Broker product website pages"
+                         details="Company · Year · Industry · Place"
+                         tags="Brand identity, UX/UI design, Design systems">
+                <h3 slot="title">Verb + action</h3>
+                <p>What and how.<br><strong>Outcomes — qualitative or KPI number.</strong></p>
+              </case-card>
+            </div>
+          </div>
+          <p class="sg-label">layout="reverse"</p>
+          <div class="sg-example">
+            <div class="sg-demo" data-example>
+              <case-card layout="reverse" image="assets/img/work-sievo.jpg" alt="Sievo Academy learning platform"
+                         details="Company · Year · Industry · Place"
+                         tags="Information architecture, User research">
+                <h3 slot="title">Verb + action</h3>
+                <p>What and how.</p>
+              </case-card>
+            </div>
+          </div>
+          <p class="sg-label">layout="secondary"</p>
+          <div class="sg-example">
+            <div class="sg-demo" data-example>
+              <case-card layout="secondary" image="assets/img/work-real-estate.jpg" alt="Responsive real estate website"
+                         details="Company · Year · Industry · Place"
+                         tags="UX/UI design, Responsive">
+                <h3 slot="title">Verb + action</h3>
+                <p>What and how. Outcomes.</p>
+              </case-card>
+            </div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="case-slider">
+          <header>
+            <h2 class="h3">Case slider <code>&lt;case-slider&gt;</code></h2>
+            <p>A carousel of case cards with arrows, dots, swipe and arrow keys. Neighbouring cards peek in at the sides. The dots are generated from the number of cards.</p>
+          </header>
+          <table class="sg-props">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>label</code></td><td>Name read out by screen readers, e.g. "Selected product design work".</td></tr>
+          </table>
+          <div class="sg-example">
+            <div class="sg-demo" data-example>
+              <case-slider label="Example slider">
+                <case-card image="assets/img/work-karma-dashboard.jpg" alt="Campaign dashboard" details="Company · Year · Industry · Place" tags="User flows, Data visualization">
+                  <h3 slot="title">First card</h3>
+                  <p>What and how.</p>
+                </case-card>
+                <case-card image="assets/img/work-water-platform.jpg" alt="Water data platform" details="Company · Year · Industry · Place" tags="Information architecture">
+                  <h3 slot="title">Second card</h3>
+                  <p>What and how.</p>
+                </case-card>
+              </case-slider>
+            </div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="project-card">
+          <header>
+            <h2 class="h3">Project card <code>&lt;project-card&gt;</code></h2>
+            <p>A visual design project. The description (the element's text) slides in on hover or keyboard focus, and is always visible on phones. Keep it to two lines.</p>
+          </header>
+          <table class="sg-props">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>name</code></td><td>Project name.</td></tr>
+            <tr><td><code>image</code>, <code>alt</code></td><td>Image path and its description.</td></tr>
+            <tr><td><code>tags</code></td><td>Comma-separated tags.</td></tr>
+            <tr><td><code>heading</code></td><td>Optional heading tag for the name: <code>h2</code> (default), <code>h3</code> or <code>h4</code>.</td></tr>
+          </table>
+          <div class="sg-example">
+            <div class="sg-demo" data-example style="max-width: 680px">
+              <project-card name="Project name" image="assets/img/visual-lola.jpg" alt="Craft beer bottles with illustrated labels"
+                            tags="Branding, Packaging, Illustration" heading="h3">
+                Short project description. Two lines only.
+              </project-card>
+            </div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="logo-marquee">
+          <header>
+            <h2 class="h3">Logo marquee <code>&lt;logo-marquee&gt;</code></h2>
+            <p>An endless, auto-scrolling row of logos that pauses on hover. Put logos inside as <code>&lt;img&gt;</code>; wrap one in <code>&lt;a&gt;</code> to link it. Set each logo's desktop width with <code>style="--w:160"</code> (in px; mobile uses 60%).</p>
+          </header>
+          <div class="sg-example">
+            <div class="sg-demo" data-example>
+              <logo-marquee>
+                <img src="assets/logos/fibo.svg" alt="Fibonacci" style="--w:203">
+                <a href="https://www.model-broker.com/"><img src="assets/logos/model-broker.svg" alt="Model Broker" style="--w:204"></a>
+                <img src="assets/logos/kavka.svg" alt="Kavka" style="--w:89">
+                <img src="assets/logos/se-lecto-cafe.svg" alt="Se-Lecto Café" style="--w:114">
+                <img src="assets/logos/gipsy.svg" alt="Gipsy" style="--w:173">
+              </logo-marquee>
+            </div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="dot-shader">
+          <header>
+            <h2 class="h3">Dot shader <code>&lt;dot-shader&gt;</code></h2>
+            <p>Recreates the Figma particle shader: a shape drawn as a grid of dots that push away from the cursor and change colour. Give it a size with CSS. Put an inline <code>&lt;svg&gt;</code> inside (like the RENÉE wordmark), or use <code>shape="pill"</code>. Move your mouse over the examples.</p>
+          </header>
+          <table class="sg-props">
+            <tr><th>Attribute</th><th>Description</th></tr>
+            <tr><td><code>spacing</code></td><td>Distance between dots in px. Default 5.</td></tr>
+            <tr><td><code>color</code></td><td>Dot colour at rest. Default <code>#f6f6f6</code>.</td></tr>
+            <tr><td><code>hot</code></td><td>Dot colour near the cursor. Default <code>#ff7e0d</code>.</td></tr>
+            <tr><td><code>radius</code></td><td>How far the cursor reaches, in px. Default 228.</td></tr>
+            <tr><td><code>shape</code></td><td>Optional. <code>pill</code> draws a rounded bar instead of the inline SVG.</td></tr>
+          </table>
+          <div class="sg-example">
+            <div class="sg-demo sg-demo--row" data-example>
+              <dot-shader shape="pill" spacing="4.5" color="#ff7e0d" hot="#f6f6f6" style="width: 320px; height: 84px"></dot-shader>
+              <dot-shader spacing="4" style="width: 160px; height: 160px">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="48" fill="#fff"/></svg>
+              </dot-shader>
+            </div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="life-stack">
+          <header>
+            <h2 class="h3">Life stack <code>&lt;life-stack&gt;</code></h2>
+            <p>Statements next to a stack of tilted photos. Hovering or clicking a statement brings its photo to the front. Add one <code>&lt;life-moment&gt;</code> per statement, with <code>image</code> and <code>alt</code>. The first one starts on top.</p>
+          </header>
+          <div class="sg-example">
+            <div class="sg-demo" data-example>
+              <life-stack>
+                <life-moment image="assets/img/life-music.jpg" alt="A red vinyl record on a turntable">Music is very important to me.</life-moment>
+                <life-moment image="assets/img/life-finland.jpg" alt="Ice-swimming hole on a frozen lake">I’ve been living in Finland for 2.5 years now.</life-moment>
+              </life-stack>
+            </div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="kpis">
+          <header>
+            <h2 class="h3">KPI list <code>.kpis</code></h2>
+            <p>Big numbers with labels, between two orange lines. Plain HTML: a <code>&lt;dl&gt;</code> where each <code>&lt;div&gt;</code> holds a label (<code>dt</code>) and a value (<code>dd</code>).</p>
+          </header>
+          <div class="sg-example">
+            <div class="sg-demo sg-demo--light" data-example>
+              <dl class="kpis">
+                <div><dt>Years of practice</dt><dd>12+</dd></div>
+                <div><dt>Languages</dt><dd>3</dd></div>
+                <div><dt>Projects completed</dt><dd>40+</dd></div>
+                <div><dt>Cats</dt><dd>2</dd></div>
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        <section class="sg-section" id="reveal">
+          <header>
+            <h2 class="h3">Reveal on scroll <code>.reveal</code></h2>
+            <p>Add <code>class="reveal"</code> to any element (including components) to fade it up the first time it scrolls into view.</p>
+          </header>
+          <pre class="sg-code">&lt;project-card class="reveal" name="…" …&gt;…&lt;/project-card&gt;</pre>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <site-footer></site-footer>
+
+  <script>
+    // Runs before components.js (which is deferred), so it captures each
+    // example's source exactly as written, before the components render it.
+    (() => {
+      const dedent = (s) => {
+        const lines = s.replace(/^\n+|\s+$/g, "").split("\n");
+        const pad = Math.min(...lines.filter((l) => l.trim()).map((l) => l.match(/^ */)[0].length));
+        return lines.map((l) => l.slice(pad)).join("\n");
+      };
+      document.querySelectorAll("[data-example]").forEach((demo) => {
+        const pre = document.createElement("pre");
+        pre.className = "sg-code";
+        pre.textContent = dedent(demo.innerHTML.replace(/<br>\n\s*/g, ""));
+        demo.after(pre);
+      });
+
+      // Swatches and spacing read the live token values, so they never go stale.
+      const css = getComputedStyle(document.documentElement);
+      document.querySelectorAll("[data-swatches]").forEach((box) => {
+        box.innerHTML = box.dataset.swatches.split(" ").map((t) =>
+          `<div class="sg-swatch"><span style="background: var(${t})"></span><span>${t}</span><code>${css.getPropertyValue(t).trim()}</code></div>`
+        ).join("");
+      });
+      document.querySelectorAll("[data-spaces]").forEach((box) => {
+        box.innerHTML = box.dataset.spaces.split(" ").map((t) =>
+          `<div class="sg-space"><code>${t}</code><span>${css.getPropertyValue(t).trim()}</span><span style="width: var(${t})"></span></div>`
+        ).join("");
+      });
+    })();
+  </script>
+</body>
+</html>

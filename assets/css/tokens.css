@@ -1,0 +1,128 @@
+/* ==========================================================================
+   Design tokens — Renée Ocaña Portfolio 2026
+   The single source of truth for colour, type, spacing, radius, shadow and
+   motion. Values come from the Figma file's styles (Black, Gray, BG White,
+   Accent Orange, Accent Green, H1–H4, Body, Captions, Button pills) and its
+   auto-layout gaps. Components only use the *semantic* tokens below the
+   primitives, so a theme change happens here and nowhere else.
+   See styleguide.html for a visual reference.
+   ========================================================================== */
+
+:root {
+  /* ---------- Colour primitives (Figma: Black, Gray, BG White, Accent) ---------- */
+  --color-black: #313131;
+  --color-ink: #1e1e1e;
+  --color-gray: #b9bbc1;
+  --color-white: #f6f6f6;
+  --color-pure-white: #ffffff;
+  --color-orange: #ff7e0d;
+  --color-orange-dark: #ec6f00;
+  --color-green: #709049;
+
+  /* ---------- Colour: semantic ---------- */
+  --surface-page: var(--color-black);
+  --surface-card: var(--color-white);
+  --surface-card-dark: var(--color-black);
+  --surface-nav: rgba(49, 49, 49, 0.8);
+  --surface-menu: rgba(49, 49, 49, 0.96);
+  --surface-pill: rgba(185, 187, 193, 0.8);
+
+  --text-primary: var(--color-white);
+  --text-muted: var(--color-gray);
+  --text-on-light: var(--color-black);
+  --text-accent: var(--color-orange);
+
+  --border-strong: var(--color-white);
+  --border-subtle: var(--color-gray);
+  --border-accent: var(--color-orange);
+  --border-on-light: var(--color-black);
+
+  --action-primary: var(--color-orange);
+  --action-primary-hover: var(--color-orange-dark);
+  --action-dark: var(--color-black);
+  --action-dark-hover: var(--color-ink);
+  --focus-ring: var(--color-orange);
+
+  /* ---------- Typography ---------- */
+  --font-display: "Konkhmer Sleokchher", "Inter", system-ui, sans-serif;
+  --font-body: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --weight-regular: 400;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* display scale: Figma size at 1440px, scaled down fluidly */
+  --text-h1: clamp(44px, 5.6vw, 80px);   /* Figma H1 80/88 */
+  --text-h2: clamp(30px, 3.9vw, 56px);   /* Figma H2 56/62 */
+  --text-h3: clamp(22px, 2.3vw, 32px);   /* Figma H3 32/38 */
+  --text-h4: clamp(16px, 1.4vw, 20px);   /* Figma H4 20/24 */
+  --leading-h1: 1.1;
+  --leading-h2: 1.107;
+  --leading-h3: 1.1875;
+  --leading-h4: 1.2;
+  --tracking-h4: -0.02em;
+
+  --text-lead: clamp(22px, 2.5vw, 36px); /* home intro, Open Sans 36 */
+  --text-body: 18px;                     /* Figma Body 18/24 */
+  --leading-body: 24px;
+  --text-small: 16px;                    /* Figma Body small / buttons / nav */
+  --text-caption: 14px;                  /* Figma Captions body */
+  --leading-caption: 1.35;
+  --text-pill: 11px;                     /* Figma Button pills */
+  --text-mobile-title: 20px;             /* fixed 20px titles on mobile (Figma mobile H4) */
+  --tracking-pill: 0.02em;
+
+  /* ---------- Spacing (Figma auto-layout gaps) ---------- */
+  --space-1: 5px;
+  --space-2: 8px;
+  --space-3: 10px;
+  --space-4: 15px;
+  --space-5: 20px;
+  --space-6: 30px;
+  --space-7: 40px;
+  --space-8: 60px;
+  --space-9: 80px;
+  --space-10: 100px;
+
+  /* ---------- Layout ---------- */
+  --content-max: 1280px;
+  --page-pad: var(--space-9);
+  --nav-top: 50px;
+  --nav-height: 62px;
+  --nav-max: 1290px;
+
+  /* ---------- Radius ---------- */
+  --radius-pill: 50px;
+  --radius-card: 25px;
+  --radius-media: 17px;
+  --radius-panel: 80px;
+  --radius-round: 100px;
+
+  /* ---------- Elevation ---------- */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.25);
+  --shadow-media: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-photo: 0 6px 24px rgba(0, 0, 0, 0.35);
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 0.2s;
+  --duration-base: 0.35s;
+  --duration-slow: 0.6s;
+}
+
+/* Breakpoints (CSS variables can't be used in media queries — keep in sync):
+   tablet  ≤ 1100px
+   mobile  ≤ 760px */
+
+@media (max-width: 1100px) {
+  :root { --page-pad: var(--space-7); }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --page-pad: 16px;
+    --nav-top: var(--space-5);
+    --nav-height: 52px;
+    --radius-panel: 40px;
+  }
+}
