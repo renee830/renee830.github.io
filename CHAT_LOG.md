@@ -49,3 +49,10 @@
 - Fixed mobile navigation alignment by restoring auto margin on the hamburger button so the logo and menu button sit at opposite ends of the bar.
 - Traced the Firefox mobile page-level horizontal overflow to the home wordmark's DotShader canvas extending beyond its host to animate the outer dots. Clipped overflow at the document root while preserving the product carousel's own horizontal scrolling; the visible edge of the next slide is the carousel's intentional preview, not a hidden extra card.
 - Verified theme/card/About behavior in the browser, validated the supplied SVGs with `xmllint`, and confirmed `git diff --check` passes. Node.js is unavailable in this environment.
+
+## Mobile-only motion
+
+- Added a randomized, smooth shader sweep to the homepage wordmark on mobile, with each pass taking about 3.5–5 seconds; it pauses while offscreen and does not replace desktop pointer interaction.
+- Added a five-second automatic cycle to the About-page “Get to know me” list on mobile. Selecting or focusing a moment pauses the cycle; it also pauses when the section is offscreen or the tab is hidden.
+- Both effects respect `prefers-reduced-motion` and respond when the viewport crosses the mobile breakpoint.
+- Browser-tested mobile and desktop behavior, viewport changes, reduced-motion settings, list advancement, and interaction pause. `git diff --check` passes.

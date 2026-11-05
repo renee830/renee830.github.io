@@ -466,6 +466,50 @@
         it.addEventListener("mouseenter", () => canHover() && show(it.dataset.key));
       });
       if (items.length) show(items[0].dataset.key);
+
+      if (items.length > 1 && !reduceMotion) {
+        const autoMedia = window.matchMedia("(max-width: 760px)");
+        let timer = 0;
+        let isVisible = !("IntersectionObserver" in window);
+        let userPaused = false;
+        let activeIndex = 0;
+        const stop = () => {
+          window.clearInterval(timer);
+          timer = 0;
+        };
+        const start = () => {
+          if (timer || !autoMedia.matches || !isVisible || userPaused || document.hidden) return;
+          timer = window.setInterval(() => {
+            activeIndex = (activeIndex + 1) % items.length;
+            show(items[activeIndex].dataset.key);
+          }, 5000);
+        };
+        const pauseForInteraction = () => {
+          userPaused = true;
+          stop();
+        };
+        items.forEach((item, index) => {
+          item.addEventListener("click", () => {
+            if (!autoMedia.matches) return;
+            activeIndex = index;
+            pauseForInteraction();
+          });
+          item.addEventListener("focus", () => {
+            if (autoMedia.matches) pauseForInteraction();
+          });
+        });
+        document.addEventListener("visibilitychange", () => document.hidden ? stop() : start());
+        autoMedia.addEventListener("change", (event) => event.matches ? start() : stop());
+        if ("IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(([entry]) => {
+            isVisible = entry.isIntersecting;
+            isVisible ? start() : stop();
+          });
+          observer.observe(this);
+        } else {
+          start();
+        }
+      }
     }
   }
 
@@ -478,6 +522,7 @@
        color    dot colour at rest            hot  colour near the cursor
        radius   cursor influence in px (default 228)
        shape    "pill" draws a rounded bar instead of an inline <svg>
+       auto-mobile  slowly sweep the effect on mobile only
      Recreates the Figma particle shader: the shape becomes a dot grid that
      bulges away from the cursor. Size it with CSS (width/height).
      ------------------------------------------------------------------------ */
@@ -503,6 +548,15 @@
       this.base = hexToRgb(getBaseColor());
       this.hot = hexToRgb(this.getAttribute("hot") || "#ff7e0d");
       this.radius = parseFloat(this.getAttribute("radius") || "228");
+      this.autoMedia = window.matchMedia("(max-width: 760px)");
+      this.autoOptIn = this.hasAttribute("auto-mobile") && !reduceMotion;
+      this.autoMotion = this.autoOptIn && this.autoMedia.matches;
+      this.autoVisible = false;
+      this.autoInView = !("IntersectionObserver" in window);
+      this.autoSegmentStartedAt = 0;
+      this.autoSegmentDuration = 0;
+      this.autoFrom = { x: 0, y: 0 };
+      this.autoTarget = { x: 0, y: 0 };
       this.PAD = 60;
       this.dots = [];
       this.mouse = { x: -9999, y: -9999, active: false };
@@ -520,6 +574,16 @@
       if (!reduceMotion) {
         window.addEventListener("pointermove", (e) => this.onPointer(e), { passive: true });
         document.addEventListener("pointerleave", () => { this.mouse.active = false; this.wake(); });
+      }
+      if (this.autoOptIn) {
+        if ("IntersectionObserver" in window) {
+          this.autoObserver = new IntersectionObserver(([entry]) => {
+            this.autoInView = entry.isIntersecting;
+            this.updateAutoMotion();
+          });
+          this.autoObserver.observe(this);
+        }
+        this.autoMedia.addEventListener("change", () => this.updateAutoMotion());
       }
       let t;
       window.addEventListener("resize", () => { clearTimeout(t); t = setTimeout(() => this.sample(), 150); });
@@ -567,6 +631,7 @@
       }
       this.classList.add("is-ready");
       this.draw();
+      if (this.autoOptIn) this.updateAutoMotion();
     }
 
     draw() {
@@ -586,6 +651,27 @@
     step() {
       let moving = false;
       const { mouse, radius, spacing } = this;
+      if (this.autoMotion && this.autoVisible) {
+        const now = performance.now();
+        if (!this.autoSegmentDuration || now - this.autoSegmentStartedAt >= this.autoSegmentDuration) {
+          if (!this.autoSegmentDuration) {
+            mouse.x = Math.random() * this.w;
+            mouse.y = this.h * (0.15 + Math.random() * 0.7);
+          }
+          this.autoFrom = { x: mouse.x, y: mouse.y };
+          this.autoTarget = {
+            x: Math.random() * this.w,
+            y: this.h * (0.15 + Math.random() * 0.7),
+          };
+          this.autoSegmentStartedAt = now;
+          this.autoSegmentDuration = 3500 + Math.random() * 1500;
+        }
+        const progress = Math.min(1, (now - this.autoSegmentStartedAt) / this.autoSegmentDuration);
+        const eased = progress * progress * (3 - 2 * progress);
+        mouse.x = this.autoFrom.x + (this.autoTarget.x - this.autoFrom.x) * eased;
+        mouse.y = this.autoFrom.y + (this.autoTarget.y - this.autoFrom.y) * eased;
+        mouse.active = true;
+      }
       for (const d of this.dots) {
         let tx = d.ox, ty = d.oy, heat = 0;
         if (mouse.active) {
@@ -607,12 +693,27 @@
         if (Math.abs(d.vx) + Math.abs(d.vy) > 0.02 || Math.abs(heat - d.heat) > 0.01) moving = true;
       }
       this.draw();
-      this.raf = moving || mouse.active ? requestAnimationFrame(() => this.step()) : 0;
+      this.raf = moving || mouse.active || (this.autoMotion && this.autoVisible)
+        ? requestAnimationFrame(() => this.step())
+        : 0;
+    }
+
+    updateAutoMotion() {
+      this.autoMotion = this.autoOptIn && this.autoMedia.matches;
+      this.autoVisible = this.autoMotion && this.autoInView;
+      if (this.autoVisible) {
+        this.autoSegmentDuration = 0;
+      } else {
+        this.mouse.active = false;
+        this.autoSegmentDuration = 0;
+      }
+      this.wake();
     }
 
     wake() { if (!this.raf) this.raf = requestAnimationFrame(() => this.step()); }
 
     onPointer(e) {
+      if (this.autoMotion) return;
       const rect = this.getBoundingClientRect();
       const x = e.clientX - rect.left, y = e.clientY - rect.top, r = this.radius;
       const near = x > -r && y > -r && x < this.w + r && y < this.h + r;
