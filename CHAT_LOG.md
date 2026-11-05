@@ -46,5 +46,6 @@
 - Kept the About hero and profile dark-mode appearance in light mode, while styling the “Get to know me” section, navigation, and footer for the light theme.
 - Replaced the email link with a copy-email button, including success feedback and a visible fallback when clipboard access is unavailable.
 - Reordered the Finland life moment and revised the craft-beer copy to describe an interest in the culture.
-- Mobile navigation issues were noted for follow-up and are not part of this saved change set.
+- Fixed mobile navigation alignment by restoring auto margin on the hamburger button so the logo and menu button sit at opposite ends of the bar.
+- Traced the Firefox mobile page-level horizontal overflow to the home wordmark's DotShader canvas extending beyond its host to animate the outer dots. Clipped overflow at the document root while preserving the product carousel's own horizontal scrolling; the visible edge of the next slide is the carousel's intentional preview, not a hidden extra card.
 - Verified theme/card/About behavior in the browser, validated the supplied SVGs with `xmllint`, and confirmed `git diff --check` passes. Node.js is unavailable in this environment.

@@ -508,7 +508,7 @@ dot-shader.is-ready > .dot-shader__shape { visibility: hidden; }
 @media (max-width: 760px) {
   .top-fade { height: 90px; }
   .nav { width: calc(100% - 32px); padding: var(--space-2) 12px var(--space-2) var(--space-5); }
-  .nav__toggle { display: block; }
+  .nav__toggle { display: block; margin-left: auto; }
   .nav__menu {
     flex: initial;
     margin-right: 0;
