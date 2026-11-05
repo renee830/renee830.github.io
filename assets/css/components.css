@@ -37,9 +37,9 @@
 }
 .btn__icon { width: 11px; height: 11px; transition: transform var(--duration-fast) ease; }
 .btn:hover .btn__icon { transform: translateX(3px); }
-.btn--dark { background: var(--action-dark); color: var(--text-primary); }
+.btn--dark { background: var(--action-dark); color: var(--text-on-dark); }
 .btn--dark:hover { background: var(--action-dark-hover); }
-.btn--orange { background: var(--action-primary); color: var(--text-primary); }
+.btn--orange { background: var(--action-primary); color: var(--color-pure-white); }
 .btn--orange:hover { background: var(--action-primary-hover); }
 .btn--outline { background: var(--surface-card); color: var(--text-on-light); border-color: var(--border-on-light); }
 .btn--small { padding: 5px var(--space-4); font-size: var(--text-caption); }
@@ -99,7 +99,7 @@ pill-list[variant="outline"] .pill {
   height: 112px;
   z-index: 40;
   pointer-events: none;
-  background: linear-gradient(180deg, var(--surface-page) 0%, rgba(49, 49, 49, 0.85) 45%, rgba(49, 49, 49, 0) 100%);
+  background: linear-gradient(180deg, var(--surface-page) 0%, var(--surface-fade-mid) 45%, var(--surface-fade-end) 100%);
 }
 
 .nav {
@@ -123,10 +123,11 @@ pill-list[variant="outline"] .pill {
 }
 
 .nav__menu {
+  position: relative;
   flex: 1;
   display: flex;
   justify-content: center;
-  margin-right: 66px; /* keeps the menu centred against the logo */
+  margin-right: 60px;
 }
 
 .nav-link {
@@ -143,10 +144,34 @@ pill-list[variant="outline"] .pill {
 .nav-link:hover,
 .nav-link[aria-current="page"] { color: var(--text-accent); }
 
+.theme-toggle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 50%;
+  right: -60px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-round);
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+}
+.theme-toggle:hover { color: var(--text-accent); }
+.theme-toggle svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.theme-toggle__sun { display: none; }
+html[data-theme="light"] .theme-toggle__sun { display: block; }
+html[data-theme="light"] .theme-toggle__moon { display: none; }
+
 .nav__toggle {
   display: none;
   position: relative;
-  margin-left: auto;
+  margin-left: 0;
   width: 40px;
   height: 40px;
   padding: 0;
@@ -216,7 +241,7 @@ pill-list[variant="outline"] .pill {
 .footer__tagline { font-family: var(--font-display); font-size: var(--text-h3); line-height: var(--leading-h3); padding-right: var(--space-5); margin-top: 13px; }
 .footer__cols { display: flex; justify-content: flex-end; gap: var(--space-5); }
 .footer__col { width: 196px; display: grid; gap: var(--space-6); align-content: start; }
-.footer__col h2 { padding: 0 var(--space-1) var(--space-1); font-family: var(--font-body); font-size: var(--text-small); line-height: 22px; color: var(--color-pure-white); }
+.footer__col h2 { padding: 0 var(--space-1) var(--space-1); font-family: var(--font-body); font-size: var(--text-small); line-height: 22px; color: var(--text-primary); }
 .footer__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
 .footer__col a {
   display: inline-block;
@@ -230,11 +255,11 @@ pill-list[variant="outline"] .pill {
 }
 .footer__col a[target="_blank"] { text-decoration: underline; }
 .footer__col a:hover { color: var(--text-accent); }
-.footer__copy { max-width: calc(var(--content-max) + var(--page-pad) * 2); margin: 0 auto; padding: 110px var(--page-pad) var(--space-7); font-size: var(--text-caption); color: var(--color-pure-white); }
+.footer__copy { max-width: calc(var(--content-max) + var(--page-pad) * 2); margin: 0 auto; padding: 110px var(--page-pad) var(--space-7); font-size: var(--text-caption); color: var(--text-primary); }
 
 /* ---------- <case-card> ----------
    layout="reverse" puts the image on the right, layout="secondary" is the
-   compact dark card. */
+   compact alternate card. */
 
 .case {
   display: flex;
@@ -242,12 +267,14 @@ pill-list[variant="outline"] .pill {
   height: 100%;
   min-height: 480px;
   padding: var(--space-6);
+  border: 1px solid var(--color-black);
   border-radius: var(--radius-card);
   background: var(--surface-card);
   color: var(--text-on-light);
   transition: box-shadow var(--duration-base) var(--ease-out);
 }
 .case:hover { box-shadow: var(--shadow-card); }
+.case:active { border-color: var(--color-orange); }
 
 .case__media {
   flex: 0 0 calc(50% - var(--space-5) / 2);
@@ -268,11 +295,19 @@ pill-list[variant="outline"] .pill {
 
 case-card[layout="reverse"] .case { flex-direction: row-reverse; }
 
-case-card[layout="secondary"] .case { min-height: 0; background: var(--surface-card-dark); color: var(--text-primary); }
+case-card[layout="secondary"] .case { min-height: 0; background: var(--surface-card-dark); color: var(--text-on-dark); }
 case-card[layout="secondary"] .case__media { flex-basis: 372px; max-height: 226px; }
 case-card[layout="secondary"] .case__title { font-size: var(--text-h3); line-height: var(--leading-h3); margin-top: var(--space-3); }
 case-card[layout="secondary"] .case__text { font-size: var(--text-small); line-height: var(--leading-caption); }
 case-card[layout="secondary"] .case:hover { box-shadow: 0 0 0 1px var(--border-accent), var(--shadow-card); }
+html[data-theme="light"] case-card[layout="secondary"] .case {
+  border: 1px solid var(--color-orange);
+  background: var(--color-white);
+  color: var(--color-black);
+}
+html[data-theme="light"] case-card[layout="secondary"] .case:hover,
+html[data-theme="light"] case-card[layout="secondary"] .case:active,
+html[data-theme="light"] case-card[layout="secondary"] .case:focus-visible { border-color: var(--color-orange); }
 
 /* ---------- <case-slider> ---------- */
 
@@ -332,11 +367,13 @@ case-slider { display: block; --slider-edge: max(81px, calc((100vw - 1278px) / 2
   gap: var(--space-5);
   height: 528px;
   padding: var(--space-5);
+  border: 1px solid var(--color-black);
   border-radius: var(--radius-card);
   background: var(--surface-card);
   color: var(--text-on-light);
   overflow: hidden;
 }
+.project:active { border-color: var(--color-orange); }
 .project__top { display: grid; gap: var(--space-5); }
 .project__top .pills { padding-bottom: var(--space-3); border-bottom: 0.5px solid var(--border-accent); }
 .project__name { font-family: var(--font-display); font-size: var(--text-h2); line-height: var(--leading-h2); }
@@ -473,6 +510,8 @@ dot-shader.is-ready > .dot-shader__shape { visibility: hidden; }
   .nav { width: calc(100% - 32px); padding: var(--space-2) 12px var(--space-2) var(--space-5); }
   .nav__toggle { display: block; }
   .nav__menu {
+    flex: initial;
+    margin-right: 0;
     position: absolute;
     top: calc(100% + var(--space-3));
     left: 0;
@@ -498,6 +537,12 @@ dot-shader.is-ready > .dot-shader__shape { visibility: hidden; }
     transition: opacity 0.25s ease, transform 0.25s var(--ease-out);
   }
   .nav-link { padding: 16px 12px; font-size: 16px; }
+  .theme-toggle {
+    position: static;
+    align-self: center;
+    margin: var(--space-3) 0 0;
+    transform: none;
+  }
 
   .visual-grid > project-card.mobile-hidden { display: none; }
 

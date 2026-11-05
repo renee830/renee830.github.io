@@ -35,3 +35,16 @@
 - `git diff --check` passed after the CSS and HTML changes checked during the chat.
 - Browser automation confirmed responsive slider behavior, image switching, mobile-only card hiding, and reduced-motion marquee behavior.
 - `node` was unavailable in the environment, so a Node syntax check could not be run; the page was loaded and exercised in the browser instead.
+
+## Portfolio theme and About-page updates
+
+**Date:** November 5, 2026
+
+- Added a persistent dark/light theme toggle across the site, with dark mode as the default.
+- Added the supplied light-theme logo variants under `assets/logos/light/` and switch logo artwork with the selected theme.
+- Updated light-theme product and visual-design cards to white with black strokes; the secondary real-estate card remains white with an orange stroke.
+- Kept the About hero and profile dark-mode appearance in light mode, while styling the “Get to know me” section, navigation, and footer for the light theme.
+- Replaced the email link with a copy-email button, including success feedback and a visible fallback when clipboard access is unavailable.
+- Reordered the Finland life moment and revised the craft-beer copy to describe an interest in the culture.
+- Mobile navigation issues were noted for follow-up and are not part of this saved change set.
+- Verified theme/card/About behavior in the browser, validated the supplied SVGs with `xmllint`, and confirmed `git diff --check` passes. Node.js is unavailable in this environment.

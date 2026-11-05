@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="assets/js/theme-init.js"></script>
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/components.css">
@@ -28,15 +29,15 @@
     .sg-section > header p { color: var(--text-muted); font-size: var(--text-small); max-width: 70ch; }
     .sg-label { font-size: var(--text-pill); font-weight: var(--weight-bold); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
     .sg-lead { color: var(--text-muted); max-width: 70ch; }
-    .sg-lead code, .sg-section code:not(pre code) { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; color: var(--text-primary); background: rgba(255,255,255,0.08); padding: 1px 5px; border-radius: 4px; }
+    .sg-lead code, .sg-section code:not(pre code) { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; color: var(--text-primary); background: var(--surface-pill); padding: 1px 5px; border-radius: 4px; }
 
     .sg-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: var(--space-4); }
     .sg-swatch { display: grid; gap: var(--space-2); font-size: var(--text-caption); }
-    .sg-swatch span:first-child { height: 76px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); }
+    .sg-swatch span:first-child { height: 76px; border-radius: 12px; border: 1px solid var(--border-subtle); }
     .sg-swatch code { color: var(--text-muted); font-size: 12px; }
 
     .sg-type { display: grid; gap: var(--space-5); }
-    .sg-type-row { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--space-5); align-items: baseline; padding-bottom: var(--space-5); border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sg-type-row { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--space-5); align-items: baseline; padding-bottom: var(--space-5); border-bottom: 1px solid var(--border-subtle); }
     .sg-type-row code { color: var(--text-muted); font-size: 12px; line-height: 1.5; }
 
     .sg-spaces { display: grid; gap: var(--space-2); }
@@ -46,14 +47,14 @@
     .sg-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: var(--space-5); }
     .sg-tile { display: grid; place-items: center; height: 110px; background: var(--surface-card); color: var(--text-on-light); font-size: var(--text-caption); text-align: center; }
 
-    .sg-example { display: grid; gap: 0; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; overflow: hidden; }
+    .sg-example { display: grid; gap: 0; border: 1px solid var(--border-subtle); border-radius: 16px; overflow: hidden; }
     .sg-demo { padding: var(--space-6); overflow: hidden; }
     .sg-demo--light { background: var(--surface-card); color: var(--text-on-light); }
     .sg-demo--row { display: flex; flex-wrap: wrap; gap: var(--space-5); align-items: center; }
     .sg-code { margin: 0; max-height: 340px; overflow: auto; padding: var(--space-5); background: #232323; border-top: 1px solid rgba(255,255,255,0.1); font: 12.5px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; color: #e6e6e6; white-space: pre; }
 
     .sg-props { width: 100%; border-collapse: collapse; font-size: var(--text-caption); }
-    .sg-props th, .sg-props td { text-align: left; vertical-align: top; padding: var(--space-2) var(--space-3); border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sg-props th, .sg-props td { text-align: left; vertical-align: top; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--border-subtle); }
     .sg-props th { color: var(--text-muted); font-weight: var(--weight-semibold); }
     .sg-props td:first-child { white-space: nowrap; }
 
@@ -254,7 +255,7 @@
             <tr><td><code>image</code>, <code>alt</code></td><td>Image path and its description.</td></tr>
             <tr><td><code>details</code></td><td>Company · Year · Industry · Place</td></tr>
             <tr><td><code>tags</code></td><td>Comma-separated tags (rendered with <code>&lt;pill-list&gt;</code>).</td></tr>
-            <tr><td><code>layout</code></td><td>Optional. <code>reverse</code> = image on the right. <code>secondary</code> = compact dark card.</td></tr>
+            <tr><td><code>layout</code></td><td>Optional. <code>reverse</code> = image on the right. <code>secondary</code> = compact card (dark by default; white with an orange stroke in light mode).</td></tr>
           </table>
           <p class="sg-label">Default</p>
           <div class="sg-example">

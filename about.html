@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,13 +12,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="assets/js/theme-init.js"></script>
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/pages.css">
   <script src="assets/js/components.js" defer></script>
 </head>
-<body>
+<body class="about-page">
   <site-nav current="about"></site-nav>
 
   <main id="main">
@@ -57,8 +58,12 @@
           <p class="body">Open for freelance and full-time jobs.</p>
           <div class="contact__cta">
             <a class="btn btn--dark" href="https://www.linkedin.com/in/renee-ocana/" target="_blank" rel="noopener">Contact by LinkedIn <img class="btn__icon" src="assets/icons/arrow-right.svg" alt=""></a>
-            <a class="btn btn--orange" href="mailto:renee.oflo@proton.me">Send an email <img class="btn__icon" src="assets/icons/arrow-right.svg" alt=""></a>
+            <button class="btn btn--orange" type="button" data-copy-email>
+              Copy email
+              <svg class="btn__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"></rect><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path></svg>
+            </button>
           </div>
+          <p class="contact__copy-status" role="status" aria-live="polite"></p>
         </div>
       </section>
     </div>
@@ -66,10 +71,10 @@
     <section class="life container" aria-labelledby="life-title">
       <h2 class="h2 uppercase reveal" id="life-title">Get to know me</h2>
       <life-stack>
-        <life-moment image="assets/img/life-photography.jpg" alt="Black-and-white photo of a person sitting on waterfront steps in front of city buildings">I love photography and is part of my daily life.</life-moment>
-        <life-moment image="assets/img/life-beer.jpg" alt="Two glasses of craft beer on a bar table under neon lights">Worked as a manager in a specialty bar for 4 years &amp; got hooked on craft beer ever since.</life-moment>
-        <life-moment image="assets/img/life-music.jpg" alt="A red vinyl record spinning on a turntable">Music is very important to me. I try to go to as many concerts as I can.</life-moment>
         <life-moment image="assets/img/life-finland.jpg" alt="Ladder leading into an ice-swimming hole on a frozen Finnish lake">I’ve been living in Finland for 2.5 years now. I’m from México.</life-moment>
+        <life-moment image="assets/img/life-photography.jpg" alt="Black-and-white photo of a person sitting on waterfront steps in front of city buildings">I love photography and is part of my daily life.</life-moment>
+        <life-moment image="assets/img/life-beer.jpg" alt="Two glasses of craft beer on a bar table under neon lights">After working as a manager in a specialty bar for four years, I developed an interest in craft beer and its culture.</life-moment>
+        <life-moment image="assets/img/life-music.jpg" alt="A red vinyl record spinning on a turntable">Music is very important to me. I try to go to as many concerts as I can.</life-moment>
       </life-stack>
     </section>
   </main>

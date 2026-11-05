@@ -26,10 +26,14 @@
   --surface-nav: rgba(49, 49, 49, 0.8);
   --surface-menu: rgba(49, 49, 49, 0.96);
   --surface-pill: rgba(185, 187, 193, 0.8);
+  --surface-fade-mid: rgba(49, 49, 49, 0.85);
+  --surface-fade-end: rgba(49, 49, 49, 0);
 
   --text-primary: var(--color-white);
   --text-muted: var(--color-gray);
   --text-on-light: var(--color-black);
+  --text-on-dark: var(--color-white);
+  --text-on-accent: var(--color-white);
   --text-accent: var(--color-orange);
 
   --border-strong: var(--color-white);
@@ -37,6 +41,7 @@
   --border-accent: var(--color-orange);
   --border-on-light: var(--color-black);
 
+  --dot-color: var(--color-white);
   --action-primary: var(--color-orange);
   --action-primary-hover: var(--color-orange-dark);
   --action-dark: var(--color-black);
@@ -108,6 +113,24 @@
   --duration-fast: 0.2s;
   --duration-base: 0.35s;
   --duration-slow: 0.6s;
+}
+
+html[data-theme="light"] {
+  --surface-page: var(--color-white);
+  --surface-nav: rgba(246, 246, 246, 0.88);
+  --surface-menu: rgba(246, 246, 246, 0.96);
+  --surface-pill: rgba(49, 49, 49, 0.12);
+  --surface-fade-mid: rgba(246, 246, 246, 0.85);
+  --surface-fade-end: rgba(246, 246, 246, 0);
+
+  --text-primary: var(--color-black);
+  --text-muted: var(--color-black);
+  --text-on-accent: var(--color-black);
+
+  --border-strong: var(--color-black);
+  --border-subtle: var(--color-black);
+
+  --dot-color: var(--color-black);
 }
 
 /* Breakpoints (CSS variables can't be used in media queries — keep in sync):

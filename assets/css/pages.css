@@ -6,6 +6,8 @@
 
 .hero { padding-block: 180px var(--space-8); }
 .hero__wordmark { width: min(892px, 100%); aspect-ratio: 892 / 298; margin: 0 auto var(--space-8); }
+.hero__wordmark > svg { filter: brightness(0); }
+html[data-theme="dark"] .hero__wordmark > svg { filter: none; }
 .hero__intro { max-width: 847px; }
 
 .product { padding-block: var(--space-8) var(--space-5); }
@@ -71,6 +73,22 @@
 
 .life { padding-block: 90px var(--space-8); }
 .life > .h2 { margin-bottom: var(--space-8); text-align: center; }
+
+html[data-theme="light"] .about-page main { background: var(--color-black); }
+html[data-theme="light"] .about-page .top-fade {
+  background: linear-gradient(180deg, var(--color-black) 0%, rgba(49, 49, 49, 0.85) 45%, rgba(49, 49, 49, 0) 100%);
+}
+html[data-theme="light"] .about-page .about-hero__title { color: var(--color-white); }
+html[data-theme="light"] .about-page main > .container,
+html[data-theme="light"] .about-page .life {
+  max-width: none;
+  padding-inline: max(var(--page-pad), calc((100% - var(--content-max)) / 2));
+}
+html[data-theme="light"] .about-page main > div.container { background: var(--color-black); }
+html[data-theme="light"] .about-page .life { background: var(--color-white); color: var(--color-black); }
+html[data-theme="light"] .about-page .life__item { color: var(--color-black); }
+html[data-theme="light"] .about-page .life__item[aria-pressed="true"] { color: var(--color-black); }
+.contact__copy-status { min-height: var(--leading-caption); font-size: var(--text-caption); }
 
 /* ---------- Tablet ---------- */
 

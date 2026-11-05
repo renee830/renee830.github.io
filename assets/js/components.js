@@ -20,12 +20,53 @@
     ],
   };
   const ARROW = "assets/icons/arrow-right.svg";
+  const THEME_KEY = "portfolio-theme";
+  const LIGHT_LOGOS = {
+    "alkimia.svg": "alkimia.svg",
+    "asesor-inmo.svg": "asesor-inmo.svg",
+    "barbacoa-ceron.png": "barbacoa-ceron.svg",
+    "batallas-en-el-mictlan.svg": "batallas-en-el-mictlan.svg",
+    "bixdy.svg": "bixdy.svg",
+    "corazon-artesanal.svg": "corazon-artesanal.svg",
+    "don-carnitas.svg": "don-carnitas.svg",
+    "dr-pliego.svg": "dr-pliego.svg",
+    "estambres-mx.svg": "estambres-mx.svg",
+    "fibo.svg": "fibo.svg",
+    "gipsy.svg": "gipsy.svg",
+    "human-talent.svg": "human-talent.svg",
+    "kavka.svg": "kavka.svg",
+    "la-petite-maid.svg": "la-petite-maid.svg",
+    "m-to-m.svg": "m-to-m.svg",
+    "mercado-peninsula.png": "mercado-peninsula.svg",
+    "model-broker.svg": "model-broker.svg",
+    "montreal-en-francais.svg": "montreal-en-francais.svg",
+    "rey-agave.svg": "rey-agave.svg",
+    "se-lecto-cafe.svg": "se-lecto-cafe.svg",
+    "sulca.svg": "sulca.svg",
+    "tuul.svg": "tuul.svg",
+    "vission.svg": "vission.svg",
+  };
+  const themeRoot = document.documentElement;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canHover = () => window.matchMedia("(hover: hover)").matches;
   const esc = (s = "") =>
     String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   const splitList = (s = "") => s.split(",").map((t) => t.trim()).filter(Boolean);
+  const currentTheme = () => themeRoot.dataset.theme === "light" ? "light" : "dark";
+  const setTheme = (theme) => {
+    themeRoot.dataset.theme = theme;
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) themeColor.content = theme === "dark" ? "#313131" : "#f6f6f6";
+    document.querySelectorAll("dot-shader, logo-marquee").forEach((component) => {
+      component.dispatchEvent(new CustomEvent("themechange"));
+    });
+    try {
+      window.localStorage.setItem(THEME_KEY, theme);
+    } catch (error) {
+      console.warn("Could not save the selected color theme.", error);
+    }
+  };
 
   /** Base class: renders once, when first connected. */
   class Component extends HTMLElement {
@@ -66,12 +107,30 @@
         <div class="top-fade" aria-hidden="true"></div>
         <header class="nav">
           <a class="logo-r" href="index.html" aria-label="${esc(SITE.name)} — home"></a>
-          <nav class="nav__menu" id="site-menu" aria-label="Main">${links}</nav>
+          <nav class="nav__menu" id="site-menu" aria-label="Main">
+            ${links}
+          <button class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
+            <svg class="theme-toggle__moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20.2 15.2A8.5 8.5 0 0 1 8.8 3.8 8.5 8.5 0 1 0 20.2 15.2Z"></path></svg>
+            <svg class="theme-toggle__sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+          </button>
+          </nav>
           <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span></span><span></span></button>
         </header>`;
 
       const nav = this.querySelector(".nav");
       const toggle = this.querySelector(".nav__toggle");
+      const themeToggle = this.querySelector(".theme-toggle");
+      const updateThemeToggle = () => {
+        const nextTheme = currentTheme() === "dark" ? "light" : "dark";
+        const label = `Switch to ${nextTheme} mode`;
+        themeToggle.setAttribute("aria-label", label);
+        themeToggle.title = label;
+      };
+      updateThemeToggle();
+      themeToggle.addEventListener("click", () => {
+        setTheme(currentTheme() === "dark" ? "light" : "dark");
+        updateThemeToggle();
+      });
       const setOpen = (open) => {
         nav.classList.toggle("is-open", open);
         toggle.setAttribute("aria-expanded", String(open));
@@ -327,6 +386,19 @@
     render() {
       const track = document.createElement("div");
       track.className = "marquee__track";
+      const applyTheme = () => {
+        this.querySelectorAll("img").forEach((image) => {
+          const filename = new URL(image.getAttribute("src"), document.baseURI).pathname.split("/").pop();
+          const lightLogo = LIGHT_LOGOS[filename];
+          if (!lightLogo) return;
+          image.dataset.darkSrc ||= image.getAttribute("src");
+          const source = currentTheme() === "light"
+            ? `assets/logos/light/${lightLogo}`
+            : image.dataset.darkSrc;
+          if (image.getAttribute("src") !== source) image.setAttribute("src", source);
+        });
+      };
+      applyTheme();
       [...this.children].forEach((child) => {
         let item = child;
         if (child.tagName === "A") {
@@ -347,6 +419,7 @@
         track.appendChild(clone);
       });
       this.replaceChildren(track);
+      this.addEventListener("themechange", applyTheme);
     }
   }
 
@@ -424,7 +497,10 @@
       this.source = this.querySelector("svg, .dot-shader__shape");
       if (!this.source) return;
       this.spacing = parseFloat(this.getAttribute("spacing") || "5");
-      this.base = hexToRgb(this.getAttribute("color") || "#f6f6f6");
+      const getBaseColor = () => this.getAttribute("color")
+        || getComputedStyle(this).getPropertyValue("--dot-color").trim()
+        || "#f6f6f6";
+      this.base = hexToRgb(getBaseColor());
       this.hot = hexToRgb(this.getAttribute("hot") || "#ff7e0d");
       this.radius = parseFloat(this.getAttribute("radius") || "228");
       this.PAD = 60;
@@ -436,6 +512,10 @@
       this.canvas.setAttribute("aria-hidden", "true");
       this.appendChild(this.canvas);
       this.ctx = this.canvas.getContext("2d");
+      this.addEventListener("themechange", () => {
+        this.base = hexToRgb(getBaseColor());
+        this.wake();
+      });
 
       if (!reduceMotion) {
         window.addEventListener("pointermove", (e) => this.onPointer(e), { passive: true });
@@ -556,6 +636,23 @@
 
   /* ---------- Reveal on scroll: any element with class="reveal" ---------- */
   const reveals = document.querySelectorAll(".reveal");
+  const copyEmailButton = document.querySelector("[data-copy-email]");
+  if (copyEmailButton) {
+    const copyStatus = document.querySelector(".contact__copy-status");
+    copyEmailButton.addEventListener("click", async () => {
+      try {
+        if (!navigator.clipboard?.writeText) {
+          throw new Error("Clipboard access is unavailable in this browser context.");
+        }
+        await navigator.clipboard.writeText(SITE.email.replace(/^mailto:/, ""));
+        copyStatus.textContent = "Email copied to clipboard.";
+      } catch (error) {
+        console.warn("Could not copy the email address.", error);
+        copyStatus.textContent = `Couldn't copy automatically. Email: ${SITE.email.replace(/^mailto:/, "")}`;
+      }
+    });
+  }
+
   if ("IntersectionObserver" in window && !reduceMotion) {
     const io = new IntersectionObserver(
       (entries) => entries.forEach((en) => {
