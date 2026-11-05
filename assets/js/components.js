@@ -651,6 +651,9 @@
     step() {
       let moving = false;
       const { mouse, radius, spacing } = this;
+      const autoEffect = this.autoMotion && this.autoVisible;
+      const influenceRadius = autoEffect ? radius * 0.65 : radius;
+      const displacement = autoEffect ? 1.1 : 2.2;
       if (this.autoMotion && this.autoVisible) {
         const now = performance.now();
         if (!this.autoSegmentDuration || now - this.autoSegmentStartedAt >= this.autoSegmentDuration) {
@@ -677,11 +680,10 @@
         if (mouse.active) {
           const dx = d.ox - mouse.x, dy = d.oy - mouse.y;
           const dist = Math.hypot(dx, dy);
-          if (dist < radius) {
-            const dome = Math.sqrt(1 - (dist / radius) ** 2);
+          if (dist < influenceRadius) {
+            const dome = Math.sqrt(1 - (dist / influenceRadius) ** 2);
             const n = dist || 1;
-            tx += (dx / n) * dome * spacing * 2.2;
-            ty += (dy / n) * dome * spacing * 2.2;
+            tx += (dx / n) * dome * spacing * displacement;
             heat = dome;
           }
         }

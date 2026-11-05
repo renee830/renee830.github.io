@@ -53,6 +53,7 @@
 ## Mobile-only motion
 
 - Added a randomized, smooth shader sweep to the homepage wordmark on mobile, with each pass taking about 3.5–5 seconds; it pauses while offscreen and does not replace desktop pointer interaction.
+- Reduced the automatic mobile sweep's influence radius and dot displacement so it distorts the wordmark less; desktop pointer effect is unchanged.
 - Added a five-second automatic cycle to the About-page “Get to know me” list on mobile. Selecting or focusing a moment pauses the cycle; it also pauses when the section is offscreen or the tab is hidden.
 - Both effects respect `prefers-reduced-motion` and respond when the viewport crosses the mobile breakpoint.
 - Browser-tested mobile and desktop behavior, viewport changes, reduced-motion settings, list advancement, and interaction pause. `git diff --check` passes.
