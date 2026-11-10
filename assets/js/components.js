@@ -172,6 +172,7 @@
                 <h2>Contact</h2>
                 <ul>
                   <li><a href="${about.href}">${esc(about.label)}</a></li>
+                  <li><a href="assets/docs/renee-ocana-cv.pdf" download="Renee-Ocana-CV.pdf">Download CV</a></li>
                   <li><a href="${SITE.linkedin}" target="_blank" rel="noopener">LinkedIn</a></li>
                 </ul>
               </div>
