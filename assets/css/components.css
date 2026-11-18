@@ -316,6 +316,8 @@ case-slider { display: block; --slider-edge: max(81px, calc((100vw - 1278px) / 2
 .slider__viewport {
   overflow-x: auto;
   overflow-y: hidden;
+  margin-block: -32px;
+  padding-block: 32px;
   scrollbar-width: none;
   scroll-snap-type: x mandatory;
   scroll-padding-inline: var(--slider-edge);
