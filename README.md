@@ -4,6 +4,8 @@ Static website built from the Figma file `ReneeOcana_Portfolio2026`. Plain HTML,
 
 ## View it
 
+To view the live website go to: https://renee830.github.io/
+
 Open `index.html` in a browser, or run a local server from this folder:
 
 ```
